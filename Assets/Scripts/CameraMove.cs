@@ -6,12 +6,7 @@ public class CameraMove : MonoBehaviour
     
     private Vector3 _startPoint;
     private Vector3 _cameraStartPosition;
-    private Plane _plane;
-    
-    private void Start()
-    {
-        _plane = new Plane(Vector3.up, Vector3.zero);
-    }
+    private Plane _plane = new Plane(Vector3.up, Vector3.zero);
 
     private void Update()
     {
