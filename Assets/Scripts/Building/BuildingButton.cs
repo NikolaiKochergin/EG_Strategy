@@ -2,13 +2,19 @@ using UnityEngine;
 
 public class BuildingButton : MonoBehaviour
 {
-    [SerializeField] private Resources _resources;
     [SerializeField] private BuildingPlacer _buildingPlacer;
     [SerializeField] private Building _buildingPrefab;
 
+    private Resources _resources;
+
+    private void Start()
+    {
+        _resources = FindObjectOfType<Resources>();
+    }
+
     public void TryBuy()
     {
-        int price = _buildingPrefab.GetComponent<Building>().Price;
+        int price = _buildingPrefab.Price;
         
         if (_resources.Money >= price)
         {

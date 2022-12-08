@@ -3,6 +3,7 @@ using UnityEngine;
 public class Building : SelectableObject
 {
     [SerializeField] private Renderer _renderer;
+    [SerializeField] private GameObject _menu;
     [SerializeField] [Min(0)] private int _price;
     [SerializeField] [Min(0)] private int _xSize = 3;
     [SerializeField] [Min(0)] private int _zSize = 3;
@@ -16,17 +17,28 @@ public class Building : SelectableObject
     private void Awake()
     {
         _startColor = _renderer.material.color;
+        Unselect();
     }
 
-    public void DisplayUnacceptablePosition()
+    public override void Select()
     {
+        base.Select();
+        if(_menu != null)
+            _menu.gameObject.SetActive(true);
+    }
+
+    public override void Unselect()
+    {
+        base.Unselect();
+        if(_menu != null)
+            _menu.gameObject.SetActive(false);
+    }
+
+    public void DisplayUnacceptablePosition() =>
         _renderer.material.color = Color.red;
-    }
 
-    public void DisplayAcceptablePosition()
-    {
+    public void DisplayAcceptablePosition() =>
         _renderer.material.color = _startColor;
-    }
 
     private void OnDrawGizmos()
     {
