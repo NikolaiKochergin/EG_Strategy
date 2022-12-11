@@ -1,15 +1,18 @@
+using TMPro;
 using UnityEngine;
 
 public class SpawnButton : MonoBehaviour
 {
-    [SerializeField] private Transform _spawnPoint;
     [SerializeField] private Unit _unitPrefab;
+    [SerializeField] private TMP_Text _priceText;
+    [SerializeField] private Barack _barack;
     
     private Resources _resources;
 
     private void Start()
     {
         _resources = FindObjectOfType<Resources>();
+        _priceText.text = _unitPrefab.Price.ToString();
     }
 
     public void TryBuy()
@@ -20,11 +23,11 @@ public class SpawnButton : MonoBehaviour
         {
             _resources.SpendMoney(price);
 
-            Vector2 offset = Random.insideUnitCircle * 0.5f;
-            Vector3 spawnPosition =
-                new Vector3(_spawnPoint.position.x + offset.x, 0, _spawnPoint.position.z + offset.y);
-            
-            Instantiate(_unitPrefab, spawnPosition, Quaternion.identity);
+            _barack.CreateUnit(_unitPrefab);
+        }
+        else
+        {
+            Debug.Log("Недостаточно денег");
         }
     }
 }

@@ -14,7 +14,7 @@ public class Building : SelectableObject
     public int XSize => _xSize;
     public int ZSize => _zSize;
 
-    private void Awake()
+    public void Awake()
     {
         _startColor = _renderer.material.color;
         Unselect();
