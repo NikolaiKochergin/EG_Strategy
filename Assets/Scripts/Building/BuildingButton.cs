@@ -1,7 +1,9 @@
+using TMPro;
 using UnityEngine;
 
 public class BuildingButton : MonoBehaviour
 {
+    [SerializeField] private TMP_Text _buildingPriceText;
     [SerializeField] private BuildingPlacer _buildingPlacer;
     [SerializeField] private Building _buildingPrefab;
 
@@ -10,6 +12,7 @@ public class BuildingButton : MonoBehaviour
     private void Start()
     {
         _resources = FindObjectOfType<Resources>();
+        _buildingPriceText.text = _buildingPrefab.Price.ToString();
     }
 
     public void TryBuy()
