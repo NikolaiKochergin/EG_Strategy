@@ -42,6 +42,6 @@ public class Unit : SelectableObject
 
     private void OnDestroy()
     {
-        FindObjectOfType<Management>().Unselect(this);
+        FindObjectOfType<Management>()?.Unselect(this);
     }
 }

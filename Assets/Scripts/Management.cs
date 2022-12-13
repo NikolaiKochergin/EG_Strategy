@@ -81,8 +81,17 @@ public class Management : MonoBehaviour
         if(_currentSelectionState == SelectionState.UnitSelected)
             if (Input.GetMouseButtonUp(0))
                 if (hit.collider.CompareTag(nameof(Ground)))
-                    foreach (var selected in ListOfSelected)
-                        selected.WhenClickOnGround(hit.point);
+                {
+                    int rowNumber = Mathf.CeilToInt(Mathf.Sqrt(ListOfSelected.Count));
+                    
+                    for (int i = 0; i < ListOfSelected.Count; i++)
+                    {
+                        int row = i / rowNumber;
+                        int column = i % rowNumber;
+                        Vector3 point = hit.point + new Vector3(row, 0f, column);
+                        ListOfSelected[i].WhenClickOnGround(point);
+                    }
+                }
         
         if(Input.GetMouseButtonDown(1))
             UnselectAll();
