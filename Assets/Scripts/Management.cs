@@ -138,6 +138,12 @@ public class Management : MonoBehaviour
         }
     }
 
+    public void Unselect(SelectableObject selectableObject)
+    {
+        if (ListOfSelected.Contains(selectableObject))
+            ListOfSelected.Remove(selectableObject);
+    }
+
     private void UnselectAll()
     {
         foreach (var selected in ListOfSelected)

@@ -14,6 +14,7 @@ public enum EnemyState
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private NavMeshAgent _navMeshAgent;
+    [SerializeField] private HealthBar _healthBarPrefab;
     [SerializeField] [Min(0)] private int _health = 10;
     [SerializeField] [Min(0)] private float _distanceToFollow = 7f;
     [SerializeField] [Min(0)] private float _distanceToAttack = 1f;
@@ -23,11 +24,26 @@ public class Enemy : MonoBehaviour
     private EnemyState _currentEnemyState;
     private Building _targetBuilding;
     private Unit _targetUnit;
+    private HealthBar _healthBar;
     private float _timer;
+    private int _maxHealth;
 
     private void Start()
     {
         SetState(EnemyState.WalkToBuilding);
+        _maxHealth = _health;
+        _healthBar = Instantiate(_healthBarPrefab, transform);
+        _healthBar.Setup(transform);
+    }
+    
+    public void TakeDamage(int damageValue)
+    {
+        _health -= damageValue;
+        _healthBar.SetHealth(_health, _maxHealth);
+        if (_health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Update()
@@ -36,6 +52,9 @@ public class Enemy : MonoBehaviour
         switch (_currentEnemyState)
         {
             case EnemyState.Idle:
+                FindClosestBuilding();
+                if(_targetBuilding)
+                    SetState(EnemyState.WalkToBuilding);
                 FindClosestUnit();
                 break;
             case EnemyState.WalkToBuilding:
@@ -63,6 +82,7 @@ public class Enemy : MonoBehaviour
             case EnemyState.Attack:
                 if (_targetUnit)
                 {
+                    _navMeshAgent.SetDestination(_targetBuilding.transform.position);
                     distance = Vector3.Distance(transform.position, _targetUnit.transform.position);
                     if (distance > _distanceToAttack)
                         SetState(EnemyState.WalkToUnit);
@@ -93,7 +113,10 @@ public class Enemy : MonoBehaviour
                 break;
             case EnemyState.WalkToBuilding:
                 FindClosestBuilding();
-                _navMeshAgent.SetDestination(_targetBuilding.transform.position);
+                if (_targetBuilding)
+                    _navMeshAgent.SetDestination(_targetBuilding.transform.position);
+                else
+                    SetState(EnemyState.Idle);
                 break;
             case EnemyState.WalkToUnit:
                 break;

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,7 +11,8 @@ public class Unit : SelectableObject
 
     private HealthBar _healthBar;
     private int _maxHealth;
-    
+
+    protected NavMeshAgent NavMeshAgent => _navMeshAgent;
     public int Price => _price;
 
     public override void Start()
@@ -36,5 +38,10 @@ public class Unit : SelectableObject
         {
             Destroy(gameObject);
         }
+    }
+
+    private void OnDestroy()
+    {
+        FindObjectOfType<Management>().Unselect(this);
     }
 }
