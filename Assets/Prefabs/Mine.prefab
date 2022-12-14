@@ -295,7 +295,7 @@ MonoBehaviour:
   _xSize: 2
   _zSize: 2
   _money: 10
-  _perSecond: 1
+  _perSecond: 5
 --- !u!1 &5672996127946905541
 GameObject:
   m_ObjectHideFlags: 0
